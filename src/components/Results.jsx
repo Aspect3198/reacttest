@@ -1,4 +1,4 @@
-import { getResultImages } from '../resultImages';
+import { getResultImage } from '../resultImages';
 import { useState, useMemo } from 'react';
 
 import { LETTERS, countCorrect } from '../utils';
