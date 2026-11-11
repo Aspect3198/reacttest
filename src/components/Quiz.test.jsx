@@ -1,11 +1,12 @@
+import { vi, describe, test, expect, afterEach } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import '@testing-library/jest-dom';
+import '@testing-library/jest-dom/vitest';
 import Quiz from './Quiz';
 
 // Замінюємо зовнішні залежності простими заглушками
-jest.mock('../utils', () => ({ LETTERS: ['A', 'B', 'C', 'D'] }));
-jest.mock('./Home', () => ({ topicHue: jest.fn(() => 200) }));
+vi.mock('../utils', () => ({ LETTERS: ['A', 'B', 'C', 'D'] }));
+vi.mock('./Home', () => ({ topicHue: vi.fn(() => 200) }));
 
 const makeSession = () => ({
   topicId: 'js',
@@ -17,8 +18,8 @@ const makeSession = () => ({
 });
 
 const setup = (props = {}) => {
-  const onFinish = jest.fn();
-  const onExit = jest.fn();
+  const onFinish = vi.fn();
+  const onExit = vi.fn();
   const user = userEvent.setup();
   render(<Quiz session={makeSession()} onFinish={onFinish} onExit={onExit} {...props} />);
   return { user, onFinish, onExit };
@@ -28,7 +29,7 @@ const optionButton = (text) => screen.getByText(text).closest('button');
 const dot = (n) => screen.getByRole('button', { name: String(n) });
 
 describe('Quiz', () => {
-  afterEach(() => jest.restoreAllMocks());
+  afterEach(() => vi.restoreAllMocks());
 
   describe('початковий стан', () => {
     test('показує назву, перше питання та лічильник 0/3', () => {
@@ -54,7 +55,7 @@ describe('Quiz', () => {
 
     test('передає hue теми в CSS-змінну', () => {
       const { container } = render(
-        <Quiz session={makeSession()} onFinish={jest.fn()} onExit={jest.fn()} />
+        <Quiz session={makeSession()} onFinish={vi.fn()} onExit={vi.fn()} />
       );
       expect(container.querySelector('.quiz').style.getPropertyValue('--h')).toBe('200');
     });
@@ -140,9 +141,9 @@ describe('Quiz', () => {
     });
 
     test('слухач клавіатури знімається після розмонтування', async () => {
-      const removeSpy = jest.spyOn(window, 'removeEventListener');
+      const removeSpy = vi.spyOn(window, 'removeEventListener');
       const { unmount } = render(
-        <Quiz session={makeSession()} onFinish={jest.fn()} onExit={jest.fn()} />
+        <Quiz session={makeSession()} onFinish={vi.fn()} onExit={vi.fn()} />
       );
       unmount();
       expect(removeSpy).toHaveBeenCalledWith('keydown', expect.any(Function));
@@ -151,7 +152,7 @@ describe('Quiz', () => {
 
   describe('завершення тесту', () => {
     test('якщо відповіли на все, onFinish викликається без підтвердження', async () => {
-      const confirmSpy = jest.spyOn(window, 'confirm');
+      const confirmSpy = vi.spyOn(window, 'confirm');
       const { user, onFinish } = setup();
       await user.click(screen.getByText('Q1 option 1'));
       await user.click(dot(2));
@@ -164,7 +165,7 @@ describe('Quiz', () => {
     });
 
     test('є питання без відповіді і користувач підтвердив: onFinish з null', async () => {
-      const confirmSpy = jest.spyOn(window, 'confirm').mockReturnValue(true);
+      const confirmSpy = vi.spyOn(window, 'confirm').mockReturnValue(true);
       const { user, onFinish } = setup();
       await user.click(screen.getByText('Q1 option 4'));
       await user.click(dot(3));
@@ -174,7 +175,7 @@ describe('Quiz', () => {
     });
 
     test('є питання без відповіді і користувач відмовився: onFinish не викликається', async () => {
-      jest.spyOn(window, 'confirm').mockReturnValue(false);
+      vi.spyOn(window, 'confirm').mockReturnValue(false);
       const { user, onFinish } = setup();
       await user.click(dot(3));
       await user.click(screen.getByRole('button', { name: /Завершити тест/ }));
