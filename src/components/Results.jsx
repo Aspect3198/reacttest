@@ -1,7 +1,5 @@
-import { getResultImages } from '../resultImages';
 import { useState, useMemo } from 'react';
-
-import { useState } from 'react';
+import { getResultImage } from '../resultImages';
 import { LETTERS, countCorrect } from '../utils';
 import { topicHue } from './Home';
 
