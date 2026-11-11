@@ -1,4 +1,5 @@
 import { getResultImages } from '../resultImages';
+import { useState, useMemo } from 'react';
 
 import { useState } from 'react';
 import { LETTERS, countCorrect } from '../utils';
@@ -16,7 +17,7 @@ export default function Results({ session, answers, onRetry, onRetryWrong, onHom
   const total = session.questions.length;
   const correct = countCorrect(session, answers);
   const percent = Math.round((correct / total) * 100);
-  const images = getResultImages(percent);
+  const image = useMemo(() => getResultImage(percent), [percent]);
 
   const items = session.questions
     .map((q, i) => ({ q, i, a: answers[i] }))
@@ -24,7 +25,7 @@ export default function Results({ session, answers, onRetry, onRetryWrong, onHom
 
   return (
     <div className="results" style={{ '--h': topicHue(session.topicId) }}>
-      <div className="card summary">
+            <div className="card summary">
         <div className="ring" style={{ '--p': percent }}>
           <span>{percent}%</span>
         </div>
@@ -39,13 +40,9 @@ export default function Results({ session, answers, onRetry, onRetryWrong, onHom
             <button className="btn btn-ghost" onClick={onHome}>До тем</button>
           </div>
         </div>
+        <img className="summary-img" src={image} alt="" />   
       </div>
 
-      <div className="result-images">
-  {images.map((src, i) => (
-    <img key={i} src={src} alt="" />
-  ))}
-</div>
       
       <div className="filter">
         <h3>Розбір відповідей</h3>
