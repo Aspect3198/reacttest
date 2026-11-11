@@ -1,5 +1,5 @@
 import { vi, describe, test, expect, afterEach } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { cleanup, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom/vitest';
 import Quiz from './Quiz';
@@ -29,7 +29,10 @@ const optionButton = (text) => screen.getByText(text).closest('button');
 const dot = (n) => screen.getByRole('button', { name: String(n) });
 
 describe('Quiz', () => {
-  afterEach(() => vi.restoreAllMocks());
+     afterEach(() => {
+     cleanup();
+     vi.restoreAllMocks();
+   });
 
   describe('початковий стан', () => {
     test('показує назву, перше питання та лічильник 0/3', () => {
