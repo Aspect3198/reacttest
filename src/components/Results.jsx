@@ -16,6 +16,7 @@ export default function Results({ session, answers, onRetry, onRetryWrong, onHom
   const total = session.questions.length;
   const correct = countCorrect(session, answers);
   const percent = Math.round((correct / total) * 100);
+  const images = getResultImages(percent);
 
   const items = session.questions
     .map((q, i) => ({ q, i, a: answers[i] }))
@@ -40,6 +41,12 @@ export default function Results({ session, answers, onRetry, onRetryWrong, onHom
         </div>
       </div>
 
+      <div className="result-images">
+  {images.map((src, i) => (
+    <img key={i} src={src} alt="" />
+  ))}
+</div>
+      
       <div className="filter">
         <h3>Розбір відповідей</h3>
         <label className="switch">
