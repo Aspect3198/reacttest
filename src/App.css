@@ -134,10 +134,14 @@ footer { text-align: center; color: var(--muted); font-size: .8rem; padding: 18p
 
 .summary > div:not(.ring) { flex: 1; min-width: 0; }
 .summary-img {
-  flex: none; width: 150px; height: 150px; object-fit: cover;
-  border-radius: 16px; border: 3px solid var(--c);
-  box-shadow: var(--shadow);
+  flex: none;
+  width: 220px;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 14px;
+  border: 3px solid var(--primary-2);
+  box-shadow: 0 6px 20px rgba(155, 92, 246, 0.25);
 }
 @media (max-width: 600px) {
-  .summary-img { width: 100%; max-width: 240px; height: 160px; }
+  .summary-img { width: 100%; max-width: 260px; height: 160px; }
 }
