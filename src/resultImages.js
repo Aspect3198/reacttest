@@ -17,7 +17,7 @@ const RANGES = [
   { max: 100, images: [img9, img10] },  // 81–100%
 ];
 
-export function getResultImages(percent) {
+export function getResultImage(percent) {
   const range = RANGES.find((r) => percent <= r.max) ?? RANGES[RANGES.length - 1];
-  return range.images;
+  return range.images[Math.floor(Math.random() * range.images.length)];
 }
