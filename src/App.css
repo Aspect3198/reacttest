@@ -131,3 +131,9 @@ footer { text-align: center; color: var(--muted); font-size: .8rem; padding: 18p
   .quiz-title { font-size: .8rem; }
   .dot { width: 34px; height: 34px; }
 }
+
+.result-images { display: flex; gap: 16px; justify-content: center; margin-bottom: 24px; }
+.result-images img { flex: 1 1 0; min-width: 0; max-width: 320px; max-height: 320px; object-fit: cover; border-radius: 16px; }
+@media (max-width: 600px) {
+  .result-images img { max-height: 200px; }
+}
