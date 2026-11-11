@@ -1,7 +1,6 @@
 import { getResultImages } from '../resultImages';
 import { useState, useMemo } from 'react';
 
-import { useState } from 'react';
 import { LETTERS, countCorrect } from '../utils';
 import { topicHue } from './Home';
 
